@@ -42,9 +42,10 @@ public class ChatServer{
     public void process(String rawMessage, ChatClient origin) {
         clients.forEach(client -> {
             if(client == origin){
-                client.send("Message sent");
+                client.send("You: " + rawMessage);
+            } else {
+                client.send(rawMessage);
             }
-            client.send(rawMessage);
         });
     }
 }

@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class SimpleChatClient {
+public class CommandLineChatClient {
     public static void main(String[] args) throws IOException {
         Socket client = new Socket("127.0.0.1", 5555);
         Scanner input = new Scanner(client.getInputStream());

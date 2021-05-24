@@ -20,6 +20,10 @@ public class ChatClient implements Runnable{
         this.server = server;
     }
 
+    public ChatServer getServer() {
+        return server;
+    }
+
     @Override
     public void run() {
         while (input.hasNextLine()) {
@@ -29,6 +33,6 @@ public class ChatClient implements Runnable{
     }
 
     public void send(String message) {
-        output.println("Server echo: " + message);
+        output.println(message);
     }
 }
