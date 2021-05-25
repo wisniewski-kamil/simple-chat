@@ -2,6 +2,7 @@ package pl.sda;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -20,9 +21,15 @@ public class ChatWindow extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Scene scene = new Scene(root, 400, 300);
+        client = new ClientSocket();
+
         prepareWindowContent();
+        root.setPadding(new Insets(10));
+        root.setSpacing(10);
+
+        Scene scene = new Scene(root, 400, 300);
         stage.setScene(scene);
+        stage.setTitle("Simple Chat");
         stage.show();
         // Making sure that threads will stop when window is closed
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -31,7 +38,7 @@ public class ChatWindow extends Application {
                 System.exit(0);
             }
         });
-        client = new ClientSocket();
+
         LoginWindow.openLoginWindow(this, stage, client);
     }
 
@@ -45,6 +52,9 @@ public class ChatWindow extends Application {
         TextField inputField = new TextField();
         Button sendBtn = new Button("Send");
         // Customize content
+        inputBox.setSpacing(10);
+        inputField.setPrefWidth(500);
+        sendBtn.setMinWidth(50);
         sendBtn.setDefaultButton(true);
         sendBtn.setOnAction(actionEvent -> {
             String message = inputField.getText();

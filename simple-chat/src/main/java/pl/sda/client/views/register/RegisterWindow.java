@@ -1,5 +1,6 @@
 package pl.sda.client.views.register;
 
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,8 +20,10 @@ public class RegisterWindow {
         client = clientSocket;
 
         prepareStageElements();
+        root.setPadding(new Insets(10));
+        root.setSpacing(10);
 
-        Scene scene = new Scene(root, 300, 200);
+        Scene scene = new Scene(root, 300, 300);
         registerStage.setScene(scene);
         registerStage.setTitle("Chat Register");
         registerStage.initOwner(owner);
@@ -54,10 +57,10 @@ public class RegisterWindow {
                 String registerInfo = client.getInput().nextLine();
                 if(registerInfo.equals("REGISTER-ACCEPTED")){
                     informationLabel.setText("");
-                    informationLabel.setText("User registered correctly. You can close this window and log in");
+                    informationLabel.setText("User registered correctly.\nYou can close this window and log in");
                 } else if(registerInfo.equals("REGISTER-DENIED")){
                     informationLabel.setText("");
-                    informationLabel.setText("User with such username already exist! Try different username");
+                    informationLabel.setText("User with such username already exist!\nTry different username");
                 }
             }
         });
