@@ -4,7 +4,6 @@ import pl.sda.client.ChatClient;
 import pl.sda.commands.Command;
 import pl.sda.commands.CommandFactory;
 import pl.sda.commands.LoginCommand;
-import pl.sda.database.DatabaseConnector;
 
 import java.io.IOException;
 import java.net.ServerSocket;

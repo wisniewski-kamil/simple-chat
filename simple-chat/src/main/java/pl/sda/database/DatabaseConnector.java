@@ -20,17 +20,10 @@ public class DatabaseConnector {
         }
         User user = optionalUser.get();
         if (checkPassword(user, password)){
-            changeLoggedInState(user);
             client.login(username);
             return true;
         }
         return false;
-    }
-
-    private static void changeLoggedInState(User user){
-        boolean newState = !user.isLoggedIn();
-        user.setLoggedIn(newState);
-        userRepo.merge(user);
     }
 
     private static boolean checkPassword(User user, String password){
