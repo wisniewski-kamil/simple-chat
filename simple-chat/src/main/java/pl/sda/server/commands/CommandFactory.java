@@ -7,8 +7,11 @@ public class CommandFactory {
     public static Command createCommand(String rawMessage, ChatClient origin, ChatServer server){
         switch (rawMessage.substring(0, rawMessage.indexOf(" "))){
             case "LOGIN":
-                String[] commandElements = rawMessage.split(" ");
-                return new LoginCommand(commandElements[1], commandElements[2], origin);
+                String[] loginElements = rawMessage.split(" ");
+                return new LoginCommand(loginElements[1], loginElements[2], origin);
+            case "REGISTER":
+                String[] registerElements = rawMessage.split(" ");
+                return new RegisterCommand(registerElements[1], registerElements[2], origin);
             case "SENDALL":
                 String commandElement = rawMessage.substring(rawMessage.indexOf(" "));
                 return new SendToAllCommand(commandElement, origin, server);

@@ -43,9 +43,9 @@ public class ChatServer{
 
     public void process(String rawMessage, ChatClient origin) {
         if(!origin.isLoggedIn()){
-            Command potentialLogIn = CommandFactory.createCommand(rawMessage, origin, this);
-            if(potentialLogIn.getClass() == LoginCommand.class){
-                potentialLogIn.execute();
+            Command potentialLogInOrRegister = CommandFactory.createCommand(rawMessage, origin, this);
+            if(potentialLogInOrRegister.getClass() == LoginCommand.class || potentialLogInOrRegister.getClass() == RegisterCommand.class){
+                potentialLogInOrRegister.execute();
             }
         } else {
             Command command = CommandFactory.createCommand(rawMessage, origin, this);

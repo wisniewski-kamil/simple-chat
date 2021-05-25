@@ -15,7 +15,6 @@ public class JpaUserRepository extends JpaRepository<User, String> implements Us
     public List<User> findAllLoggedIn() {
         EntityManager em = manager();
         List<User> list = em.createQuery("select u from User u where u.isLoggedIn = true", User.class).getResultList();
-        em.close();
         return list;
     }
 }

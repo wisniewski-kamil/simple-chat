@@ -33,7 +33,6 @@ public class JpaRepository<T, K> implements Repository<T, K> {
             System.err.println("Cant save entity: " + ignored.getMessage());
         }
         em.getTransaction().commit();
-        em.close();
     }
 
     @Override
@@ -53,7 +52,6 @@ public class JpaRepository<T, K> implements Repository<T, K> {
             em.remove(obj);
         }
         em.getTransaction().commit();
-        em.close();
     }
 
     @Override
@@ -62,7 +60,6 @@ public class JpaRepository<T, K> implements Repository<T, K> {
         em.getTransaction().begin();
         em.remove(entity);
         em.getTransaction().commit();
-        em.close();
     }
 
     @Override
@@ -74,7 +71,6 @@ public class JpaRepository<T, K> implements Repository<T, K> {
     public List<T> findAll() {
         EntityManager em = manager();
         List<T> list = em.createQuery("select a from " + entityClass.getSimpleName() +" a", entityClass).getResultList();
-        em.close();
         return list;
     }
 }

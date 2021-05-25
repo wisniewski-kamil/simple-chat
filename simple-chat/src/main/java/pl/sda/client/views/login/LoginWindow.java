@@ -13,6 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pl.sda.ChatWindow;
 import pl.sda.client.ClientSocket;
+import pl.sda.client.views.register.RegisterWindow;
 
 public class LoginWindow {
     private static VBox root = new VBox();
@@ -59,6 +60,9 @@ public class LoginWindow {
                 informationLabel.setText("");
                 informationLabel.setText("Something went wrong. Try again");
             }
+        });
+        registerBtn.setOnAction(event -> {
+            RegisterWindow.openRegisterWindow(loginStage, client);
         });
         // Customize box and add all elements to it
         buttonBox.setPadding(new Insets(10, 10, 0, 0));
