@@ -1,4 +1,4 @@
-package pl.sda.database.entities;
+package pl.sda.server.database.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

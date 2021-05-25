@@ -1,4 +1,4 @@
-package pl.sda.login;
+package pl.sda.client.views.login;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,11 +11,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import pl.sda.ChatWindow;
 import pl.sda.client.ClientSocket;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
 
 public class LoginWindow {
     private static VBox root = new VBox();
@@ -24,9 +21,12 @@ public class LoginWindow {
     private static ClientSocket client;
     private static TextField usernameField = new TextField();
     private static PasswordField passwordField = new PasswordField();
+    private static Label informationLabel = new Label();
+    private static ChatWindow parentWindow;
 
-    public static void openLoginWindow(Stage owner, ClientSocket clientSocket){
+    public static void openLoginWindow(ChatWindow window, Stage owner, ClientSocket clientSocket){
         client = clientSocket;
+        parentWindow = window;
         // Create window elements
         prepareInputFields();
         // Customize root and add all elements to it
@@ -51,14 +51,21 @@ public class LoginWindow {
             client.getOutput().println("LOGIN " + usernameField.getText() + " " + passwordField.getText());
             usernameField.clear();
             passwordField.clear();
-            loginStage.close();
+            String loginInfo = client.getInput().nextLine();
+            if(loginInfo.equals("LOGIN-ACCEPTED")){
+                loginStage.close();
+                parentWindow.beginListeningForMessages();
+            } else if(loginInfo.equals("LOGIN-DENIED")){
+                informationLabel.setText("");
+                informationLabel.setText("Something went wrong. Try again");
+            }
         });
         // Customize box and add all elements to it
         buttonBox.setPadding(new Insets(10, 10, 0, 0));
         buttonBox.setSpacing(10);
         buttonBox.setAlignment(Pos.BASELINE_CENTER);
         buttonBox.getChildren().addAll(loginBtn, registerBtn);
-        root.getChildren().add(buttonBox);
+        root.getChildren().addAll(buttonBox, informationLabel);
     }
 
     private static void prepareInputFields(){

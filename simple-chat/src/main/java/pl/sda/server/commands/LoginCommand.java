@@ -1,7 +1,8 @@
-package pl.sda.commands;
+package pl.sda.server.commands;
 
 import pl.sda.client.ChatClient;
-import pl.sda.database.DatabaseConnector;
+import pl.sda.server.database.DatabaseConnector;
+import pl.sda.server.commands.*;
 
 public class LoginCommand implements Command{
     private String username;
@@ -16,6 +17,12 @@ public class LoginCommand implements Command{
 
     @Override
     public boolean execute() {
-        return DatabaseConnector.login(username, password, client);
+        if(DatabaseConnector.login(username, password, client)){
+            client.send("LOGIN-ACCEPTED");
+            return true;
+        } else{
+            client.send("LOGIN-DENIED");
+            return false;
+        }
     }
 }

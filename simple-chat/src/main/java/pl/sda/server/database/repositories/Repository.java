@@ -1,4 +1,4 @@
-package pl.sda.database.repositories;
+package pl.sda.server.database.repositories;
 
 import java.util.List;
 import java.util.Optional;

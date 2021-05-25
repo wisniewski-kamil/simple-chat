@@ -8,5 +8,5 @@ module pl.sda {
     requires org.hibernate.orm.core;
     exports pl.sda;
     exports pl.sda.client;
-    exports pl.sda.database.entities;
+    exports pl.sda.server.database.entities;
 }

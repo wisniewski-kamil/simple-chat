@@ -1,4 +1,4 @@
-package pl.sda.encryptor;
+package pl.sda.server.encryptor;
 
 public class PasswordEncryptor {
     static public String encrypt(String password){

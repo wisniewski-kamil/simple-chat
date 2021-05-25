@@ -1,6 +1,6 @@
-package pl.sda.database.repositories;
+package pl.sda.server.database.repositories;
 
-import pl.sda.database.entities.User;
+import pl.sda.server.database.entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

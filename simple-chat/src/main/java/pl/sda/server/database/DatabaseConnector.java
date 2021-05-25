@@ -1,9 +1,9 @@
-package pl.sda.database;
+package pl.sda.server.database;
 
 import pl.sda.client.ChatClient;
-import pl.sda.database.entities.User;
-import pl.sda.database.repositories.JpaUserRepository;
-import pl.sda.encryptor.PasswordEncryptor;
+import pl.sda.server.database.entities.User;
+import pl.sda.server.database.repositories.JpaUserRepository;
+import pl.sda.server.encryptor.*;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

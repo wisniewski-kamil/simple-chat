@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import pl.sda.client.ClientSocket;
-import pl.sda.login.LoginWindow;
+import pl.sda.client.views.login.*;
 
 public class ChatWindow extends Application {
     private VBox root = new VBox();
@@ -32,12 +32,7 @@ public class ChatWindow extends Application {
             }
         });
         client = new ClientSocket();
-        new Thread(() -> {
-            while(client.getInput().hasNextLine()){
-                chat.appendText(client.getInput().nextLine() + "\n");
-            }
-        }).start();
-        LoginWindow.openLoginWindow(stage, client);
+        LoginWindow.openLoginWindow(this, stage, client);
     }
 
     public static void main(String[] args) {
@@ -56,12 +51,20 @@ public class ChatWindow extends Application {
             if (message.isEmpty()){
                 return;
             }
-            client.getOutput().println(inputField.getText());
+            client.getOutput().println("SENDALL " + inputField.getText());
             inputField.clear();
         });
         chat.setEditable(false);
         // Add window content to respective containers
         inputBox.getChildren().addAll(inputField, sendBtn);
         root.getChildren().addAll(chat, inputBox);
+    }
+
+    public void beginListeningForMessages(){
+        new Thread(() -> {
+            while(client.getInput().hasNextLine()){
+                chat.appendText(client.getInput().nextLine() + "\n");
+            }
+        }).start();
     }
 }
