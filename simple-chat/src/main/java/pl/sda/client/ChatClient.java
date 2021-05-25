@@ -12,6 +12,8 @@ public class ChatClient implements Runnable{
     private final ChatServer server;
     private Scanner input;
     private PrintWriter output;
+    private String username;
+    private boolean loggedIn = false;
 
     public ChatClient(Socket clientSocket, ChatServer server) throws IOException {
         this.clientSocket = clientSocket;
@@ -34,5 +36,18 @@ public class ChatClient implements Runnable{
 
     public void send(String message) {
         output.println(message);
+    }
+
+    public void login(String username){
+        this.username = username;
+        loggedIn = true;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+
+    public boolean isLoggedIn(){
+        return loggedIn;
     }
 }

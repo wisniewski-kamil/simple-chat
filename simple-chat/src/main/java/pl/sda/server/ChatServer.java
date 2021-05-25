@@ -1,6 +1,10 @@
 package pl.sda.server;
 
 import pl.sda.client.ChatClient;
+import pl.sda.commands.Command;
+import pl.sda.commands.CommandFactory;
+import pl.sda.commands.LoginCommand;
+import pl.sda.database.DatabaseConnector;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -40,12 +44,19 @@ public class ChatServer{
     }
 
     public void process(String rawMessage, ChatClient origin) {
-        clients.forEach(client -> {
-            if(client == origin){
-                client.send("You: " + rawMessage);
-            } else {
-                client.send(rawMessage);
+        if(!origin.isLoggedIn()){
+            Command potentialLogIn = CommandFactory.createCommand(rawMessage, origin);
+            if(potentialLogIn.getClass() == LoginCommand.class){
+                potentialLogIn.execute();
             }
-        });
+        } else {
+            clients.forEach(client -> {
+                if (client == origin) {
+                    client.send("You: " + rawMessage);
+                } else {
+                    client.send(origin.getUsername() + ": " + rawMessage);
+                }
+            });
+        }
     }
 }

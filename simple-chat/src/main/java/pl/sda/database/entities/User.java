@@ -1,23 +1,46 @@
 package pl.sda.database.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class User {
     @Id
-    private String username;
+    public String username;
 
-    private String codedPassword;
+    public String codedPassword;
 
-    private boolean isLoggedIn;
+    public boolean isLoggedIn;
+
+    public User(){}
+
+    public User(String username, String codedPassword, boolean isLoggedIn) {
+        this.username = username;
+        this.codedPassword = codedPassword;
+        this.isLoggedIn = isLoggedIn;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getCodedPassword() {
+        return codedPassword;
+    }
+
+    public void setCodedPassword(String codedPassword) {
+        this.codedPassword = codedPassword;
+    }
+
+    public boolean isLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        isLoggedIn = loggedIn;
+    }
 }

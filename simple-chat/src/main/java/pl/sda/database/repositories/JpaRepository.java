@@ -37,6 +37,14 @@ public class JpaRepository<T, K> implements Repository<T, K> {
     }
 
     @Override
+    public void merge(T entity) {
+        EntityManager em = manager();
+        em.getTransaction().begin();
+        em.merge(entity);
+        em.getTransaction().commit();
+    }
+
+    @Override
     public void deleteById(K id) {
         EntityManager em = manager();
         em.getTransaction().begin();

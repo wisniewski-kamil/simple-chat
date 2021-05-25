@@ -10,7 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import pl.sda.login.Login;
+import pl.sda.login.LoginWindow;
 
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -43,7 +43,7 @@ public class ChatWindow extends Application {
                 chat.appendText(input.nextLine() + "\n");
             }
         }).start();
-        Login.openLoginWindow(stage);
+        LoginWindow.openLoginWindow(stage, client);
     }
 
     public static void main(String[] args) {
