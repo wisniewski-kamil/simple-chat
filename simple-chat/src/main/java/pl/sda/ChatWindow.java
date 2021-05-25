@@ -28,6 +28,7 @@ public class ChatWindow extends Application {
         prepareWindowContent();
         stage.setScene(scene);
         stage.show();
+        // Making sure that threads will stop when window is closed
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
@@ -50,9 +51,11 @@ public class ChatWindow extends Application {
     }
 
     private void prepareWindowContent(){
+        // Create window content
         HBox inputBox = new HBox();
         TextField inputField = new TextField();
         Button sendBtn = new Button("Send");
+        // Customize content
         sendBtn.setDefaultButton(true);
         sendBtn.setOnAction(actionEvent -> {
             String message = inputField.getText();
@@ -62,6 +65,8 @@ public class ChatWindow extends Application {
             output.println(inputField.getText());
             inputField.clear();
         });
+        chat.setEditable(false);
+        // Add window content to respective containers
         inputBox.getChildren().addAll(inputField, sendBtn);
         root.getChildren().addAll(chat, inputBox);
     }

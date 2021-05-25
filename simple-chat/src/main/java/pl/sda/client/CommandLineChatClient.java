@@ -1,4 +1,4 @@
-package pl.sda;
+package pl.sda.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
