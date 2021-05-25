@@ -10,17 +10,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import pl.sda.client.ClientSocket;
 import pl.sda.login.LoginWindow;
-
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.Scanner;
 
 public class ChatWindow extends Application {
     private VBox root = new VBox();
     private TextArea chat = new TextArea();
-    private Socket client;
-    private PrintWriter output;
+    private ClientSocket client;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -35,12 +31,10 @@ public class ChatWindow extends Application {
                 System.exit(0);
             }
         });
-        client = new Socket("127.0.0.1", 5555);
-        Scanner input = new Scanner(client.getInputStream());
-        output = new PrintWriter(client.getOutputStream(), true);
+        client = new ClientSocket();
         new Thread(() -> {
-            while(input.hasNextLine()){
-                chat.appendText(input.nextLine() + "\n");
+            while(client.getInput().hasNextLine()){
+                chat.appendText(client.getInput().nextLine() + "\n");
             }
         }).start();
         LoginWindow.openLoginWindow(stage, client);
@@ -62,7 +56,7 @@ public class ChatWindow extends Application {
             if (message.isEmpty()){
                 return;
             }
-            output.println(inputField.getText());
+            client.getOutput().println(inputField.getText());
             inputField.clear();
         });
         chat.setEditable(false);

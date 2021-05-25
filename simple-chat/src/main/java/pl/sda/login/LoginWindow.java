@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import pl.sda.client.ClientSocket;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,11 +21,11 @@ public class LoginWindow {
     private static VBox root = new VBox();
     private static HBox buttonBox = new HBox();
     private static Stage loginStage = new Stage();
-    private static Socket client;
+    private static ClientSocket client;
     private static TextField usernameField = new TextField();
     private static PasswordField passwordField = new PasswordField();
 
-    public static void openLoginWindow(Stage owner, Socket clientSocket){
+    public static void openLoginWindow(Stage owner, ClientSocket clientSocket){
         client = clientSocket;
         // Create window elements
         prepareInputFields();
@@ -47,11 +48,7 @@ public class LoginWindow {
         // Customize elements
         loginBtn.setDefaultButton(true);
         loginBtn.setOnAction(event -> {
-            try {
-                new PrintWriter(client.getOutputStream(), true).println("LOGIN " + usernameField.getText() + " " + passwordField.getText());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            client.getOutput().println("LOGIN " + usernameField.getText() + " " + passwordField.getText());
             usernameField.clear();
             passwordField.clear();
             loginStage.close();
