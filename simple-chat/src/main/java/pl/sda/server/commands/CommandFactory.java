@@ -17,8 +17,8 @@ public class CommandFactory {
                 return new SendToAllCommand(commandElement, origin, server);
             case "SENDTO":
                 String destinyAndMessage = rawMessage.substring(rawMessage.indexOf(" ") + 1);
-                String destiny = destinyAndMessage.substring(0, rawMessage.indexOf(" "));
-                String message = destinyAndMessage.substring(rawMessage.indexOf(" ") + 1);
+                String destiny = destinyAndMessage.substring(0, rawMessage.indexOf(" ") - 1);
+                String message = destinyAndMessage.substring(rawMessage.indexOf(" "));
                 return new SendDirectlyCommand(message, destiny, origin, server);
             case "LOGOUT":
                 return new LogoutCommand(origin, server);
