@@ -35,6 +35,7 @@ public class ChatWindow extends Application {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
+                client.getOutput().println("LOGOUT ");
                 System.exit(0);
             }
         });

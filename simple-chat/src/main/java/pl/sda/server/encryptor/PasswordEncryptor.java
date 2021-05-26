@@ -21,6 +21,6 @@ public class PasswordEncryptor {
 
     private static byte[] digestFromStringToBytes(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        return digest.digest("ABCD".getBytes(StandardCharsets.UTF_8));
+        return digest.digest(password.getBytes(StandardCharsets.UTF_8));
     }
 }

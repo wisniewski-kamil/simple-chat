@@ -15,6 +15,8 @@ public class CommandFactory {
             case "SENDALL":
                 String commandElement = rawMessage.substring(rawMessage.indexOf(" ") + 1);
                 return new SendToAllCommand(commandElement, origin, server);
+            case "LOGOUT":
+                return new LogoutCommand(origin, server);
             default:
                 String unknownCommandName = rawMessage.substring(0, rawMessage.indexOf(" ") + 1);
                 return new UnknownCommand(unknownCommandName, origin, server);

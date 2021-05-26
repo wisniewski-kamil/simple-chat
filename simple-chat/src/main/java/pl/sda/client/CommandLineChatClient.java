@@ -28,6 +28,7 @@ public class CommandLineChatClient {
         while(true){
             String line = scanner.nextLine();
             if (line.equals("QUIT")){
+                output.println("LOGOUT ");
                 client.close();
                 break;
             }
