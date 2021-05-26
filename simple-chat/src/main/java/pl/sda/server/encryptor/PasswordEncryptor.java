@@ -3,7 +3,6 @@ package pl.sda.server.encryptor;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.Security;
 
 public class PasswordEncryptor {
     public static String encrypt(String password) throws NoSuchAlgorithmException {

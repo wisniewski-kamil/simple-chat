@@ -10,8 +10,8 @@ public class ClientSocket {
     private PrintWriter output;
     private Scanner input;
 
-    public ClientSocket() throws IOException {
-        this.client = new Socket("127.0.0.1", 5555);
+    public ClientSocket(String host, int port) throws IOException {
+        this.client = new Socket(host, port);
         this.output = new PrintWriter(client.getOutputStream(), true);
         this.input = new Scanner(client.getInputStream());
     }

@@ -49,7 +49,10 @@ public class RegisterWindow {
             } else if (!passwordField.getText().equals(repeatPasswordField.getText())){
                 informationLabel.setText("");
                 informationLabel.setText("You must repeat the same password");
-            } else{
+            } else if (passwordField.getText().contains(" ") || usernameField.getText().contains(" ")){
+                informationLabel.setText("");
+                informationLabel.setText("Username and password can't contain spaces!");
+            }else{
                 client.getOutput().println("REGISTER " + usernameField.getText() + " " + passwordField.getText());
                 usernameField.clear();
                 passwordField.clear();
