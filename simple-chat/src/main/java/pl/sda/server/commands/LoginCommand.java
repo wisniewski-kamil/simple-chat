@@ -23,6 +23,7 @@ public class LoginCommand implements Command{
             client.send("LOGIN-ACCEPTED");
             server.getLogger().info("Client at " + client.getClientSocket().getInetAddress() + ":" + client.getClientSocket().getLocalPort() +
             " successfully logged in to account: " + client.getUsername());
+            new SendToAllCommand("~joined the chat~", client, server).execute();
             return true;
         } else{
             client.send("LOGIN-DENIED");

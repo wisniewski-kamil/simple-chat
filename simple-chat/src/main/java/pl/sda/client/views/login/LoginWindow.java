@@ -49,6 +49,9 @@ public class LoginWindow {
         // Customize elements
         loginBtn.setDefaultButton(true);
         loginBtn.setOnAction(event -> {
+            if(usernameField.getText().isEmpty() || passwordField.getText().isEmpty()){
+                return;
+            }
             client.getOutput().println("LOGIN " + usernameField.getText() + " " + passwordField.getText());
             usernameField.clear();
             passwordField.clear();

@@ -16,6 +16,7 @@ public class LogoutCommand implements Command{
     public boolean execute() {
         server.getLogger().info("Client at " + client.getClientSocket().getInetAddress() + ":" + client.getClientSocket().getLocalPort() +
                 " successfully logged out from account: " + client.getUsername());
+        new SendToAllCommand("~left the chat~", client, server).execute();
         server.getClients().remove(client);
         return true;
     }

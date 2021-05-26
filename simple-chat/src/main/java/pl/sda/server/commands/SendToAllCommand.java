@@ -19,8 +19,10 @@ public class SendToAllCommand implements Command{
         server.getClients().forEach(client -> {
             if (client == origin) {
                 client.send("You: " + message);
-            } else {
-                client.send(origin.getUsername() + ": " + message);
+            } else{
+                if(client.isLoggedIn()) {
+                    client.send(origin.getUsername() + ": " + message);
+                }
             }
         });
         server.getLogger().info("Client at " + origin.getClientSocket().getInetAddress() + ":" + origin.getClientSocket().getLocalPort() +

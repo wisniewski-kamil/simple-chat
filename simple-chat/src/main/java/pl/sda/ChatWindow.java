@@ -13,8 +13,14 @@ import javafx.stage.WindowEvent;
 import pl.sda.client.ClientSocket;
 import pl.sda.client.views.login.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChatWindow extends Application {
-    private VBox root = new VBox();
+    private HBox root = new HBox();
+    private VBox rightSideOfWindow = new VBox();
+    private VBox leftSideOfWindow = new VBox();
+    private TextField inputField = new TextField();
     private TextArea chat = new TextArea();
     private ClientSocket client;
     private HBox emojiPicker = new HBox();
@@ -24,10 +30,16 @@ public class ChatWindow extends Application {
         client = new ClientSocket("127.0.0.1", 5555);
 
         prepareWindowContent();
-        root.setPadding(new Insets(10));
-        root.setSpacing(10);
+        prepareDirectMessage();
+        leftSideOfWindow.setPadding(new Insets(10));
+        leftSideOfWindow.setSpacing(10);
+        leftSideOfWindow.setMaxWidth(500);
+        rightSideOfWindow.setMinWidth(120);
+        rightSideOfWindow.setPadding(new Insets(10));
+        rightSideOfWindow.setSpacing(10);
+        root.getChildren().addAll(leftSideOfWindow, rightSideOfWindow);
 
-        Scene scene = new Scene(root, 400, 300);
+        Scene scene = new Scene(root, 650, 350);
         stage.setScene(scene);
         stage.setTitle("Simple Chat");
         stage.show();
@@ -50,19 +62,19 @@ public class ChatWindow extends Application {
     private void prepareWindowContent(){
         // Create window content
         HBox inputBox = new HBox();
-        TextField inputField = new TextField();
         Button sendBtn = new Button("Send");
         ToggleButton emojiBtn = new ToggleButton(":)");
-        prepareEmojiPicker(inputField);
+        prepareEmojiPicker();
         // Customize content
         inputBox.setSpacing(10);
-        inputField.setPrefWidth(500);
+        inputField.setPrefWidth(400);
+        inputField.setMaxWidth(450);
         emojiBtn.setMinWidth(30);
         emojiBtn.setOnAction(event -> {
             if(emojiBtn.isSelected()) {
-                root.getChildren().add(emojiPicker);
+                leftSideOfWindow.getChildren().add(emojiPicker);
             } else{
-                root.getChildren().remove(emojiPicker);
+                leftSideOfWindow.getChildren().remove(emojiPicker);
             }
         });
         sendBtn.setMinWidth(50);
@@ -79,26 +91,27 @@ public class ChatWindow extends Application {
         chat.setFont(Font.font(16));
         // Add window content to respective containers
         inputBox.getChildren().addAll(inputField,emojiBtn, sendBtn);
-        root.getChildren().addAll(chat, inputBox);
+        leftSideOfWindow.getChildren().addAll(chat, inputBox);
     }
 
     public void beginListeningForMessages(){
         new Thread(() -> {
             while(client.getInput().hasNextLine()){
-                chat.appendText(client.getInput().nextLine() + "\n");
+                String line = client.getInput().nextLine();
+                chat.appendText(line + "\n");
             }
         }).start();
     }
 
-    private void prepareEmojiPicker(TextField textField){
-        Button whiteSmileyFaceBtn = createEmojiButton("☺", textField);
-        Button blackSmileyFaceBtn = createEmojiButton("☻", textField);
-        Button sunBtn = createEmojiButton("☼", textField);
-        Button moonBtn = createEmojiButton("☽", textField);
-        Button pieceBtn = createEmojiButton("☮", textField);
-        Button yinYangBtn = createEmojiButton("☯", textField);
-        Button heartBtn = createEmojiButton("♥", textField);
-        Button starBtn = createEmojiButton("☆", textField);
+    private void prepareEmojiPicker(){
+        Button whiteSmileyFaceBtn = createEmojiButton("☺");
+        Button blackSmileyFaceBtn = createEmojiButton("☻");
+        Button sunBtn = createEmojiButton("☼");
+        Button moonBtn = createEmojiButton("☽");
+        Button pieceBtn = createEmojiButton("☮");
+        Button yinYangBtn = createEmojiButton("☯");
+        Button heartBtn = createEmojiButton("♥");
+        Button starBtn = createEmojiButton("☆");
 
         emojiPicker.setSpacing(10);
 
@@ -106,13 +119,32 @@ public class ChatWindow extends Application {
                 heartBtn, starBtn);
     }
 
-    private Button createEmojiButton(String emoji, TextField textField){
+    private void prepareDirectMessage(){
+        Label availableUsersInfoLabel = new Label("Write user's nick\nand press the button\nto send message\ndirectly to them");
+        TextField directMessageUserField = new TextField();
+        Button dmBtn = new Button("Send DM");
+
+        availableUsersInfoLabel.setMinHeight(50);
+        dmBtn.setOnAction(event -> {
+            String message = inputField.getText();
+            if (message.isEmpty()){
+                return;
+            }
+            client.getOutput().println("SENDTO " + directMessageUserField.getText() + " " + message);
+            directMessageUserField.clear();
+            inputField.clear();
+        });
+
+        rightSideOfWindow.getChildren().addAll(availableUsersInfoLabel, directMessageUserField, dmBtn);
+    }
+
+    private Button createEmojiButton(String emoji){
         Button button = new Button(emoji);
 
         button.setFont(Font.font(16));
 
         button.setOnAction(event -> {
-            textField.appendText(emoji);
+            inputField.appendText(emoji);
         });
 
         return button;
