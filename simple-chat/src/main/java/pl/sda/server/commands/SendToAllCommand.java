@@ -23,6 +23,8 @@ public class SendToAllCommand implements Command{
                 client.send(origin.getUsername() + ": " + message);
             }
         });
+        server.getLogger().info("Client at " + origin.getClientSocket().getInetAddress() + ":" + origin.getClientSocket().getLocalPort() +
+                " sent message to everybody saying: " + message);
         return true;
     }
 }

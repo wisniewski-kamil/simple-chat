@@ -65,4 +65,8 @@ public class ChatServer{
     public List<ChatClient> getClients(){
         return clients;
     }
+
+    public Logger getLogger(){
+        return logger;
+    }
 }

@@ -50,4 +50,8 @@ public class ChatClient implements Runnable{
     public boolean isLoggedIn(){
         return loggedIn;
     }
+
+    public Socket getClientSocket(){
+        return clientSocket;
+    }
 }

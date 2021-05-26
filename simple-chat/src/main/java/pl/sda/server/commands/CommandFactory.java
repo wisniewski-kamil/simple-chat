@@ -11,7 +11,7 @@ public class CommandFactory {
                 return new LoginCommand(loginElements[1], loginElements[2], origin, server);
             case "REGISTER":
                 String[] registerElements = rawMessage.split(" ");
-                return new RegisterCommand(registerElements[1], registerElements[2], origin);
+                return new RegisterCommand(registerElements[1], registerElements[2], origin, server);
             case "SENDALL":
                 String commandElement = rawMessage.substring(rawMessage.indexOf(" ") + 1);
                 return new SendToAllCommand(commandElement, origin, server);

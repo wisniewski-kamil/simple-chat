@@ -21,9 +21,13 @@ public class LoginCommand implements Command{
     public boolean execute() {
         if(!server.checkIfUserIsLoggedInByUsername(username) && DatabaseConnector.login(username, password, client)){
             client.send("LOGIN-ACCEPTED");
+            server.getLogger().info("Client at " + client.getClientSocket().getInetAddress() + ":" + client.getClientSocket().getLocalPort() +
+            " successfully logged in to account: " + client.getUsername());
             return true;
         } else{
             client.send("LOGIN-DENIED");
+            server.getLogger().info("Client at " + client.getClientSocket().getInetAddress() + ":" + client.getClientSocket().getLocalPort() +
+                    " tried to log in but failed");
             return false;
         }
     }
