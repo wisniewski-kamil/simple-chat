@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
@@ -60,6 +61,15 @@ public class ChatServer{
             }
         }
         return false;
+    }
+
+    public Optional<ChatClient> findByUsername(String username){
+        for(ChatClient client : clients){
+            if(client.getUsername() != null && username.equals(client.getUsername())){
+                return Optional.ofNullable(client);
+            }
+        }
+        return Optional.empty();
     }
 
     public List<ChatClient> getClients(){
