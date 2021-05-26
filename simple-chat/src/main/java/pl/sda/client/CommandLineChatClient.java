@@ -11,6 +11,15 @@ public class CommandLineChatClient {
         Scanner input = new Scanner(client.getInputStream());
         Scanner scanner = new Scanner(System.in);
         PrintWriter output = new PrintWriter(client.getOutputStream(), true);
+        System.out.println("Welcome to Simple Chat\n" +
+                "You must write commands to use the chat\n" +
+                "Possible commands are:\n" +
+                "LOGIN [username] [password]\n" +
+                "REGISTER [username] [password]\n" +
+                "SENDALL [message]\n" +
+                "QUIT\n" +
+                "Note: in order to receive messages and use SENDALL to send messages you must be logged in\n" +
+                "If you don't have account yet use REGISTER command to create one and then use LOGIN");
         new Thread(() -> {
             while(input.hasNextLine()){
                 System.out.println(input.nextLine());
@@ -18,7 +27,7 @@ public class CommandLineChatClient {
         }).start();
         while(true){
             String line = scanner.nextLine();
-            if (line.equals("Q")){
+            if (line.equals("QUIT")){
                 client.close();
                 break;
             }

@@ -3,6 +3,8 @@ package pl.sda.server.commands;
 import pl.sda.client.ChatClient;
 import pl.sda.server.database.DatabaseConnector;
 
+import java.security.NoSuchAlgorithmException;
+
 public class RegisterCommand implements Command{
     private String username;
     private String password;
@@ -16,11 +18,16 @@ public class RegisterCommand implements Command{
 
     @Override
     public boolean execute() {
-        if(DatabaseConnector.register(username, password)){
-            client.send("REGISTER-ACCEPTED");
-            return true;
-        } else{
-            client.send("REGISTER-DENIED");
+        try {
+            if(DatabaseConnector.register(username, password)){
+                client.send("REGISTER-ACCEPTED");
+                return true;
+            } else{
+                client.send("REGISTER-DENIED");
+                return false;
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
             return false;
         }
     }

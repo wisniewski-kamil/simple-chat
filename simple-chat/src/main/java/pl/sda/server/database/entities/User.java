@@ -10,14 +10,11 @@ public class User {
 
     public String codedPassword;
 
-    public boolean isLoggedIn;
-
     public User(){}
 
-    public User(String username, String codedPassword, boolean isLoggedIn) {
+    public User(String username, String codedPassword) {
         this.username = username;
         this.codedPassword = codedPassword;
-        this.isLoggedIn = isLoggedIn;
     }
 
     public String getUsername() {
@@ -34,13 +31,5 @@ public class User {
 
     public void setCodedPassword(String codedPassword) {
         this.codedPassword = codedPassword;
-    }
-
-    public boolean isLoggedIn() {
-        return isLoggedIn;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-        isLoggedIn = loggedIn;
     }
 }

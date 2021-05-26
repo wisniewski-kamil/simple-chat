@@ -7,6 +7,7 @@ import pl.sda.server.encryptor.*;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 public class DatabaseConnector {
@@ -27,15 +28,20 @@ public class DatabaseConnector {
     }
 
     private static boolean checkPassword(User user, String password){
-        return user.getCodedPassword().equals(PasswordEncryptor.encrypt(password));
+        try {
+            return user.getCodedPassword().equals(PasswordEncryptor.encrypt(password));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public static boolean register(String username, String password){
+    public static boolean register(String username, String password) throws NoSuchAlgorithmException {
         Optional<User> optionalUser = userRepo.findById(username);
         if(optionalUser.isPresent()){
             return false;
         }
-        User userToRegister = new User(username, PasswordEncryptor.encrypt(password), false);
+        User userToRegister = new User(username, PasswordEncryptor.encrypt(password));
         userRepo.save(userToRegister);
         return true;
     }
