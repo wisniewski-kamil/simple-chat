@@ -4,11 +4,10 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import pl.sda.client.ClientSocket;
@@ -18,6 +17,7 @@ public class ChatWindow extends Application {
     private VBox root = new VBox();
     private TextArea chat = new TextArea();
     private ClientSocket client;
+    private HBox emojiPicker = new HBox();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -52,9 +52,19 @@ public class ChatWindow extends Application {
         HBox inputBox = new HBox();
         TextField inputField = new TextField();
         Button sendBtn = new Button("Send");
+        ToggleButton emojiBtn = new ToggleButton(":)");
+        prepareEmojiPicker(inputField);
         // Customize content
         inputBox.setSpacing(10);
         inputField.setPrefWidth(500);
+        emojiBtn.setMinWidth(30);
+        emojiBtn.setOnAction(event -> {
+            if(emojiBtn.isSelected()) {
+                root.getChildren().add(emojiPicker);
+            } else{
+                root.getChildren().remove(emojiPicker);
+            }
+        });
         sendBtn.setMinWidth(50);
         sendBtn.setDefaultButton(true);
         sendBtn.setOnAction(actionEvent -> {
@@ -66,8 +76,9 @@ public class ChatWindow extends Application {
             inputField.clear();
         });
         chat.setEditable(false);
+        chat.setFont(Font.font(16));
         // Add window content to respective containers
-        inputBox.getChildren().addAll(inputField, sendBtn);
+        inputBox.getChildren().addAll(inputField,emojiBtn, sendBtn);
         root.getChildren().addAll(chat, inputBox);
     }
 
@@ -77,5 +88,33 @@ public class ChatWindow extends Application {
                 chat.appendText(client.getInput().nextLine() + "\n");
             }
         }).start();
+    }
+
+    private void prepareEmojiPicker(TextField textField){
+        Button whiteSmileyFaceBtn = createEmojiButton("☺", textField);
+        Button blackSmileyFaceBtn = createEmojiButton("☻", textField);
+        Button sunBtn = createEmojiButton("☼", textField);
+        Button moonBtn = createEmojiButton("☽", textField);
+        Button pieceBtn = createEmojiButton("☮", textField);
+        Button yinYangBtn = createEmojiButton("☯", textField);
+        Button heartBtn = createEmojiButton("♥", textField);
+        Button starBtn = createEmojiButton("☆", textField);
+
+        emojiPicker.setSpacing(10);
+
+        emojiPicker.getChildren().addAll(whiteSmileyFaceBtn, blackSmileyFaceBtn, sunBtn, moonBtn, pieceBtn, yinYangBtn,
+                heartBtn, starBtn);
+    }
+
+    private Button createEmojiButton(String emoji, TextField textField){
+        Button button = new Button(emoji);
+
+        button.setFont(Font.font(16));
+
+        button.setOnAction(event -> {
+            textField.appendText(emoji);
+        });
+
+        return button;
     }
 }
