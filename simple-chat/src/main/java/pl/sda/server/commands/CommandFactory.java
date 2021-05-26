@@ -8,15 +8,15 @@ public class CommandFactory {
         switch (rawMessage.substring(0, rawMessage.indexOf(" "))){
             case "LOGIN":
                 String[] loginElements = rawMessage.split(" ");
-                return new LoginCommand(loginElements[1], loginElements[2], origin);
+                return new LoginCommand(loginElements[1], loginElements[2], origin, server);
             case "REGISTER":
                 String[] registerElements = rawMessage.split(" ");
                 return new RegisterCommand(registerElements[1], registerElements[2], origin);
             case "SENDALL":
-                String commandElement = rawMessage.substring(rawMessage.indexOf(" "));
+                String commandElement = rawMessage.substring(rawMessage.indexOf(" ") + 1);
                 return new SendToAllCommand(commandElement, origin, server);
             default:
-                String unknownCommandName = rawMessage.substring(0, rawMessage.indexOf(" "));
+                String unknownCommandName = rawMessage.substring(0, rawMessage.indexOf(" ") + 1);
                 return new UnknownCommand(unknownCommandName, origin, server);
         }
     }

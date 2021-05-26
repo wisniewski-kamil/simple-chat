@@ -53,6 +53,15 @@ public class ChatServer{
         }
     }
 
+    public boolean checkIfUserIsLoggedInByUsername(String username){
+        for(ChatClient client : clients){
+            if(client.getUsername() != null && username.equals(client.getUsername())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<ChatClient> getClients(){
         return clients;
     }
