@@ -17,8 +17,9 @@ public class CommandLineChatClient {
                 "LOGIN [username] [password]\n" +
                 "REGISTER [username] [password]\n" +
                 "SENDALL [message]\n" +
+                "SENDTO [username] [message]\n" +
                 "QUIT\n" +
-                "Note: in order to receive messages and use SENDALL to send messages you must be logged in\n" +
+                "Note: in order to receive messages and use SENDALL or SENDTO you must be logged in\n" +
                 "If you don't have account yet use REGISTER command to create one and then use LOGIN");
         new Thread(() -> {
             while(input.hasNextLine()){

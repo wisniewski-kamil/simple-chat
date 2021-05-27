@@ -5,7 +5,13 @@ import pl.sda.server.ChatServer;
 
 public class CommandFactory {
     public static Command createCommand(String rawMessage, ChatClient origin, ChatServer server){
-        switch (rawMessage.substring(0, rawMessage.indexOf(" "))){
+        String commandType;
+        if(rawMessage.contains(" ")){
+            commandType = rawMessage.substring(0, rawMessage.indexOf(" "));
+        } else{
+            commandType = rawMessage;
+        }
+        switch (commandType){
             case "LOGIN":
                 String[] loginElements = rawMessage.split(" ");
                 return new LoginCommand(loginElements[1], loginElements[2], origin, server);
@@ -23,7 +29,7 @@ public class CommandFactory {
             case "LOGOUT":
                 return new LogoutCommand(origin, server);
             default:
-                String unknownCommandName = rawMessage.substring(0, rawMessage.indexOf(" ") + 1);
+                String unknownCommandName = rawMessage.substring(0, rawMessage.indexOf(" "));
                 return new UnknownCommand(unknownCommandName, origin, server);
         }
     }
