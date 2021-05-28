@@ -19,7 +19,7 @@ public class LoginCommand implements Command{
 
     @Override
     public boolean execute() {
-        if(!server.checkIfUserIsLoggedInByUsername(username) && DatabaseConnector.login(username, password, client)){
+        if(!server.checkIfUserIsLoggedInByUsername(username) && DatabaseConnector.getUserService().login(username, password, client)){
             client.send("LOGIN-ACCEPTED");
             server.getLogger().info("Client at " + client.getClientSocket().getInetAddress() + ":" + client.getClientSocket().getLocalPort() +
             " successfully logged in to account: " + client.getUsername());

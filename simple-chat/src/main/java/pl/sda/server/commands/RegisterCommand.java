@@ -22,7 +22,7 @@ public class RegisterCommand implements Command{
     @Override
     public boolean execute() {
         try {
-            if(DatabaseConnector.register(username, password)){
+            if(DatabaseConnector.getUserService().register(username, password)){
                 client.send("REGISTER-ACCEPTED");
                 server.getLogger().info("Client at " + client.getClientSocket().getInetAddress() + ":" + client.getClientSocket().getLocalPort() +
                         " successfully registered account: " + username);
