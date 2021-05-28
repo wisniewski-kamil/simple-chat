@@ -13,20 +13,21 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pl.sda.ChatWindow;
 import pl.sda.client.ClientSocket;
+import pl.sda.client.controllers.ClientController;
 import pl.sda.client.views.register.RegisterWindow;
 
 public class LoginWindow {
     private static VBox root = new VBox();
     private static HBox buttonBox = new HBox();
     private static Stage loginStage = new Stage();
-    private static ClientSocket client;
+    private static ClientController client;
     private static TextField usernameField = new TextField();
     private static PasswordField passwordField = new PasswordField();
     private static Label informationLabel = new Label();
     private static ChatWindow parentWindow;
 
-    public static void openLoginWindow(ChatWindow window, Stage owner, ClientSocket clientSocket){
-        client = clientSocket;
+    public static void openLoginWindow(ChatWindow window, Stage owner, ClientController clientController){
+        client = clientController;
         parentWindow = window;
         // Create window elements
         prepareInputFields();
@@ -52,10 +53,10 @@ public class LoginWindow {
             if(usernameField.getText().isEmpty() || passwordField.getText().isEmpty()){
                 return;
             }
-            client.getOutput().println("LOGIN " + usernameField.getText() + " " + passwordField.getText());
+            client.sendLoginCommand(usernameField.getText(), passwordField.getText());
             usernameField.clear();
             passwordField.clear();
-            String loginInfo = client.getInput().nextLine();
+            String loginInfo = client.getInputNextLine();
             if(loginInfo.equals("LOGIN-ACCEPTED")){
                 loginStage.close();
                 parentWindow.beginListeningForMessages();

@@ -10,14 +10,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pl.sda.client.ClientSocket;
+import pl.sda.client.controllers.ClientController;
 
 public class RegisterWindow {
-    private static ClientSocket client;
+    private static ClientController client;
     private static VBox root = new VBox();
     private static Stage registerStage = new Stage();
 
-    public static void openRegisterWindow(Stage owner, ClientSocket clientSocket){
-        client = clientSocket;
+    public static void openRegisterWindow(Stage owner, ClientController clientController){
+        client = clientController;
 
         prepareStageElements();
         root.setPadding(new Insets(10));
@@ -53,11 +54,11 @@ public class RegisterWindow {
                 informationLabel.setText("");
                 informationLabel.setText("Username and password can't contain spaces!");
             }else{
-                client.getOutput().println("REGISTER " + usernameField.getText() + " " + passwordField.getText());
+                client.sendRegisterCommand(usernameField.getText(), passwordField.getText());
                 usernameField.clear();
                 passwordField.clear();
                 repeatPasswordField.clear();
-                String registerInfo = client.getInput().nextLine();
+                String registerInfo = client.getInputNextLine();
                 if(registerInfo.equals("REGISTER-ACCEPTED")){
                     informationLabel.setText("");
                     informationLabel.setText("User registered correctly.\nYou can close this window and log in");

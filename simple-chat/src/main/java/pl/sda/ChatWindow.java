@@ -11,10 +11,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import pl.sda.client.ClientSocket;
+import pl.sda.client.controllers.ClientController;
 import pl.sda.client.views.login.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChatWindow extends Application {
     private HBox root = new HBox();
@@ -23,11 +21,13 @@ public class ChatWindow extends Application {
     private TextField inputField = new TextField();
     private TextArea chat = new TextArea();
     private ClientSocket client;
+    private ClientController clientController;
     private HBox emojiPicker = new HBox();
 
     @Override
     public void start(Stage stage) throws Exception {
         client = new ClientSocket("127.0.0.1", 5555);
+        clientController = new ClientController(client);
 
         prepareWindowContent();
         prepareDirectMessage();
@@ -47,12 +47,12 @@ public class ChatWindow extends Application {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                client.getOutput().println("LOGOUT ");
+                clientController.sendLogoutCommand();
                 System.exit(0);
             }
         });
 
-        LoginWindow.openLoginWindow(this, stage, client);
+        LoginWindow.openLoginWindow(this, stage, clientController);
     }
 
     public static void main(String[] args) {
@@ -84,7 +84,7 @@ public class ChatWindow extends Application {
             if (message.isEmpty()){
                 return;
             }
-            client.getOutput().println("SENDALL " + inputField.getText());
+            clientController.sendSandToAllCommand(inputField.getText());
             inputField.clear();
         });
         chat.setEditable(false);
@@ -96,8 +96,8 @@ public class ChatWindow extends Application {
 
     public void beginListeningForMessages(){
         new Thread(() -> {
-            while(client.getInput().hasNextLine()){
-                String line = client.getInput().nextLine();
+            while(clientController.hasInputNextLine()){
+                String line = clientController.getInputNextLine();
                 chat.appendText(line + "\n");
             }
         }).start();
@@ -130,7 +130,7 @@ public class ChatWindow extends Application {
             if (message.isEmpty()){
                 return;
             }
-            client.getOutput().println("SENDTO " + directMessageUserField.getText() + " " + message);
+            clientController.sendSendDirectlyCommand(directMessageUserField.getText(), message);
             directMessageUserField.clear();
             inputField.clear();
         });
