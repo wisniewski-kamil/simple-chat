@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import pl.sda.ChatWindow;
 import pl.sda.client.ClientSocket;
 import pl.sda.client.controllers.ClientController;
+import pl.sda.client.validators.ClientValidator;
 import pl.sda.client.views.register.RegisterWindow;
 
 public class LoginWindow {
@@ -50,7 +51,7 @@ public class LoginWindow {
         // Customize elements
         loginBtn.setDefaultButton(true);
         loginBtn.setOnAction(event -> {
-            if(usernameField.getText().isEmpty() || passwordField.getText().isEmpty()){
+            if(!ClientValidator.validateLogin(usernameField.getText(), passwordField.getText())){
                 return;
             }
             client.sendLoginCommand(usernameField.getText(), passwordField.getText());

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import pl.sda.client.ClientSocket;
 import pl.sda.client.controllers.ClientController;
+import pl.sda.client.validators.ClientValidator;
 import pl.sda.client.views.login.*;
 
 public class ChatWindow extends Application {
@@ -81,7 +82,7 @@ public class ChatWindow extends Application {
         sendBtn.setDefaultButton(true);
         sendBtn.setOnAction(actionEvent -> {
             String message = inputField.getText();
-            if (message.isEmpty()){
+            if (!ClientValidator.validateMessage(message)){
                 return;
             }
             clientController.sendSandToAllCommand(inputField.getText());
@@ -127,7 +128,7 @@ public class ChatWindow extends Application {
         availableUsersInfoLabel.setMinHeight(50);
         dmBtn.setOnAction(event -> {
             String message = inputField.getText();
-            if (message.isEmpty()){
+            if (!ClientValidator.validateMessage(message)){
                 return;
             }
             clientController.sendSendDirectlyCommand(directMessageUserField.getText(), message);

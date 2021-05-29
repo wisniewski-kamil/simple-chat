@@ -42,6 +42,10 @@ public class ChatServer{
         }
     }
 
+    public void stop(){
+        System.exit(0);
+    }
+
     public void process(String rawMessage, ChatClient origin) {
         if(!origin.isLoggedIn()){
             Command potentialLogInOrRegister = CommandFactory.createCommand(rawMessage, origin, this);

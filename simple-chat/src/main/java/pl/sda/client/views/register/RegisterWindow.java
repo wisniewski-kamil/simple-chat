@@ -11,6 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pl.sda.client.ClientSocket;
 import pl.sda.client.controllers.ClientController;
+import pl.sda.client.validators.ClientValidator;
 
 public class RegisterWindow {
     private static ClientController client;
@@ -44,15 +45,10 @@ public class RegisterWindow {
 
         registerBtn.setDefaultButton(true);
         registerBtn.setOnAction(event -> {
-            if(usernameField.getText().isEmpty() || passwordField.getText().isEmpty() || repeatPasswordField.getText().isEmpty()){
+            String validateMessage = ClientValidator.validateRegister(usernameField.getText(), passwordField.getText(), repeatPasswordField.getText());
+            if(!validateMessage.isEmpty()){
                 informationLabel.setText("");
-                informationLabel.setText("All fields must be filled");
-            } else if (!passwordField.getText().equals(repeatPasswordField.getText())){
-                informationLabel.setText("");
-                informationLabel.setText("You must repeat the same password");
-            } else if (passwordField.getText().contains(" ") || usernameField.getText().contains(" ")){
-                informationLabel.setText("");
-                informationLabel.setText("Username and password can't contain spaces!");
+                informationLabel.setText(validateMessage);
             }else{
                 client.sendRegisterCommand(usernameField.getText(), passwordField.getText());
                 usernameField.clear();
